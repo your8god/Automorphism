@@ -30,6 +30,8 @@ void Tree::addItems(QStringList& items)
 		addInTree(item, m_root);
 
 	markNodes(m_root);
+
+	int check = 0;
 }
 
 void Tree::addInTree(QString& item, TreeItem* parentItem, int level)
