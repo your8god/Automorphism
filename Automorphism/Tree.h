@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QMap>
 
 class TreeItem
 {
@@ -8,8 +9,8 @@ public:
 	int level;
 	TreeItem* n0;
 	TreeItem* n1;
-	//TreeItem* parent;
 	QString mark;
+	int id = 0;
 
 	TreeItem()
 	{
@@ -18,10 +19,9 @@ public:
 		n1 = nullptr;
 	}
 
-	TreeItem(int cLevel/*, QString cName, TreeItem* cParent*/)
+	TreeItem(int cLevel)
 	{
 		level = cLevel;
-		//parent = cParent;
 		n0 = nullptr;
 		n1 = nullptr;
 	}
@@ -40,6 +40,11 @@ protected:
 
 	void markNodes(TreeItem* item);
 
+	void writeTree();
+	void writeLevel(QMap<int, QString>& listTree, TreeItem* item, int parentId);
+	
+
 protected:
 	TreeItem* m_root;
+	int m_idCounter = 0;
 };

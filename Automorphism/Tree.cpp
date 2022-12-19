@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include <QFile>
+#include <QTextStream>
 
 Tree::Tree()
 {
@@ -30,14 +31,15 @@ void Tree::addItems(QStringList& items)
 		addInTree(item, m_root);
 
 	markNodes(m_root);
-
-	int check = 0;
+	writeTree();
 }
 
 void Tree::addInTree(QString& item, TreeItem* parentItem, int level)
 {
 	QString el = item[level - 1];
 	TreeItem* newChild = new TreeItem();
+	if (parentItem->id == 0)
+		parentItem->id = ++m_idCounter;
 
 	if (el == "0") // кидаем в левую ветку
 	{
@@ -82,5 +84,39 @@ void Tree::markNodes(TreeItem* item)
 		item->mark += item->n0 != nullptr ? QString::number(item->n0->level) : "";
 		item->mark += item->n1 != nullptr ? QString::number(item->n1->level) : "";
 		item->level = std::max(item->n0 != nullptr ? item->n0->level : 0, item->n1 != nullptr ? item->n1->level : 0) + 1;
+	}
+}
+
+void Tree::writeTree()
+{
+	QFile file("outTree.txt");
+	file.open(QIODevice::WriteOnly);
+	
+	QMap<int, QString> map;
+	writeLevel(map, m_root, 0);
+
+	QTextStream outputStream(&file);
+
+	for (auto it = map.begin(); it != map.end(); it++)
+		outputStream << it.key() << ": " << it.value() << '\n';
+	
+	file.close();
+}
+
+void Tree::writeLevel(QMap<int, QString>& listTree, TreeItem* item, int parentId)
+{
+	listTree[item->id] = "";
+	
+	if (parentId != 0)
+		listTree[item->id] += QString::number(parentId) + ' ';
+	if (item->n0 != nullptr)
+	{
+		listTree[item->id] += QString::number(item->n0->id) + ' ';
+		writeLevel(listTree, item->n0, item->id);
+	}
+	if (item->n1 != nullptr)
+	{
+		listTree[item->id] += QString::number(item->n1->id) + ' ';
+		writeLevel(listTree, item->n1, item->id);
 	}
 }
