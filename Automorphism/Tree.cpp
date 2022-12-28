@@ -8,11 +8,16 @@ Tree::Tree()
 	init();
 }
 
+TreeItem* Tree::getTree()
+{
+	return m_root;
+}
+
 void Tree::init()
 {
 	QFile file("input.txt");
 	file.open(QIODevice::ReadOnly);
-	QString text = file.readAll().simplified().replace(" ", "");
+	QString text = file.readLine().simplified().replace(" ", "");
 	auto itemList = text.split(";");
 	file.close();
 
@@ -21,7 +26,7 @@ void Tree::init()
 
 static bool strSort(const QString& s1, const QString& s2)
 {
-	return (s1.size() < s2.size());
+	return (s1 < s2);
 }
 
 void Tree::addItems(QStringList& items)
@@ -38,7 +43,7 @@ void Tree::addInTree(QString& item, TreeItem* parentItem, int level)
 {
 	QString el = item[level - 1];
 	TreeItem* newChild = new TreeItem();
-	if (parentItem->id == 0)
+	if (parentItem->id == -1)
 		parentItem->id = ++m_idCounter;
 
 	if (el == "0") // кидаем в левую ветку
@@ -93,7 +98,7 @@ void Tree::writeTree()
 	file.open(QIODevice::WriteOnly);
 	
 	QMap<int, QString> map;
-	writeLevel(map, m_root, 0);
+	writeLevel(map, m_root, -1);
 
 	QTextStream outputStream(&file);
 
@@ -107,7 +112,7 @@ void Tree::writeLevel(QMap<int, QString>& listTree, TreeItem* item, int parentId
 {
 	listTree[item->id] = "";
 	
-	if (parentId != 0)
+	if (parentId != -1)
 		listTree[item->id] += QString::number(parentId) + ' ';
 	if (item->n0 != nullptr)
 	{

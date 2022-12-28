@@ -10,7 +10,7 @@ public:
 	TreeItem* n0;
 	TreeItem* n1;
 	QString mark;
-	int id = 0;
+	int id = -1;
 
 	TreeItem()
 	{
@@ -32,6 +32,7 @@ class Tree
 
 public:
 	Tree();
+	TreeItem* getTree();
 
 protected:
 	void init();
@@ -46,5 +47,5 @@ protected:
 
 protected:
 	TreeItem* m_root;
-	int m_idCounter = 0;
+	int m_idCounter = -1;
 };
