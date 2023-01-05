@@ -25,6 +25,27 @@ public:
 		n0 = nullptr;
 		n1 = nullptr;
 	}
+
+	void groups(QList<QPair<int, int>>& group)
+	{
+		auto l = n0, r = n1;
+		if (l == nullptr || r == nullptr)
+			return;
+
+		if (l->n0 != nullptr && r->n0 != nullptr)
+		{
+			group.append(qMakePair(l->n0->id, r->n0->id));
+			l->n0->groups(group);
+			r->n0->groups(group);
+		}
+
+		if (l->n1 != nullptr && r->n1 != nullptr)
+		{
+			group.append(qMakePair(l->n1->id, r->n1->id));
+			l->n1->groups(group);
+			r->n1->groups(group);
+		}
+	}
 };
 
 class Tree

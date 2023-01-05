@@ -33,31 +33,55 @@ void AutManager::extendMap(TreeItem* child)
 void AutManager::findAutGr()
 {
 	int level = 0;
+	int cntMonoGr = 0;
 	for (const auto& gr : m_map)
 	{
 		if (gr.size() == 1)
+		{
+			cntMonoGr++; //counts groups, that have one element
 			continue;
+		}
 		
 		AutGroup aGr;
 		for (auto item : gr)
 		{
-			group g(qMakePair(0, 0));
+			group g;
+			QPair<int, int> mG;
 			if (item->n0 != nullptr)
-				g.first = item->n0->id;
+				mG.first = item->n0->id;
 			if (item->n1 != nullptr)
-				g.second = item->n1->id;
+				mG.second = item->n1->id;
 
+			//group childGr;
+			item->groups(g);
+			g.append(mG);
 			aGr.gr.append(g);
 		}
 		aGr.level = ++level;
 
 		m_autGr.append(aGr);
 	}
+
+	if (cntMonoGr == 1) // it's the root
+	{
+		AutGroup aGr;
+		group g;
+		QPair<int, int> mG;
+		auto item = m_map.last().first();
+
+		mG.first = item->n0->id;
+		mG.second = item->n1->id;
+
+		item->groups(g);
+		g.append(mG);
+		aGr.gr.append(g);
+		aGr.level = ++level;
+		m_autGr.append(aGr);
+	}
 }
 
 void AutManager::getAut()
 {
-	int cur_level = 1;
 	for (const auto& autGrs : m_autGr)
 	{
 		for (const auto& autGr : autGrs.gr)
@@ -65,7 +89,11 @@ void AutManager::getAut()
 			auto currentAutList = m_autList;
 			for (auto &aut : currentAutList)
 			{
-				std::swap(aut[autGr.first], aut[autGr.second]);
+				for (const auto& pair : autGr)
+				{
+					std::swap(aut[pair.first], aut[pair.second]);
+					//m_autList.append(aut);
+				}
 				m_autList.append(aut);
 			}
 		}

@@ -2,7 +2,7 @@
 #include "Tree.h"
 
 typedef QMap<QString, QList<TreeItem*>> autMap;
-typedef QPair<int, int> group;
+typedef QList<QPair<int, int>> group;
 
 struct AutGroup
 {
