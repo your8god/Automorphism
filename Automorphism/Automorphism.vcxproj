@@ -87,10 +87,12 @@
   <ItemGroup>
     <ClCompile Include="AutManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TheNeighborMatrixOfGraph.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AutManager.h" />
+    <ClInclude Include="TheNeighborMatrixOfGraph.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>

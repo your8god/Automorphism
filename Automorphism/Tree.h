@@ -54,6 +54,7 @@ class Tree
 public:
 	Tree();
 	TreeItem* getTree();
+	QMap<int, QString> getNormalTree();
 
 protected:
 	void init();
@@ -68,5 +69,6 @@ protected:
 
 protected:
 	TreeItem* m_root;
+	QMap<int, QString> m_normalTree;
 	int m_idCounter = -1;
 };

@@ -31,12 +31,18 @@
     <ClCompile Include="AutManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TheNeighborMatrixOfGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AutManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TheNeighborMatrixOfGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

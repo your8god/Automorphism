@@ -13,12 +13,20 @@ TreeItem* Tree::getTree()
 	return m_root;
 }
 
+QMap<int, QString> Tree::getNormalTree()
+{
+	return m_normalTree;
+}
+
 void Tree::init()
 {
 	QFile file("input.txt");
 	file.open(QIODevice::ReadOnly);
 	QString text = file.readLine().simplified().replace(" ", "");
-	auto itemList = text.split(";");
+	QString sep = ";";
+	if (!text.count(sep))
+		sep = ",";
+	auto itemList = text.split(sep);
 	file.close();
 
 	addItems(itemList);
@@ -97,12 +105,12 @@ void Tree::writeTree()
 	QFile file("outTree.txt");
 	file.open(QIODevice::WriteOnly);
 	
-	QMap<int, QString> map;
-	writeLevel(map, m_root, -1);
+	//QMap<int, QString> map;
+	writeLevel(m_normalTree, m_root, -1);
 
 	QTextStream outputStream(&file);
 
-	for (auto it = map.begin(); it != map.end(); it++)
+	for (auto it = m_normalTree.begin(); it != m_normalTree.end(); it++)
 		outputStream << it.key() << ": " << it.value() << '\n';
 	
 	file.close();
