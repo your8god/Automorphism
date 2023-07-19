@@ -85,14 +85,18 @@ matrix TheNeighborMatrixOfGraph::Xdist(const matrix& dist, int diam_g)
 			res[i][j] = std::count(dist[i].begin(), dist[i].end(), j + 1);
 
 
-	for (int i = 0; i < res.size(); i++)
-		for (int j = 0; j < res.size() - 1; j++)
+	for (int i = 0; i < res.size() - 1; i++)
+		for (int j = i + 1; j < res.size(); j++)
 			for (int k = 0; k < res[j].size(); k++)
-				if (res[j][k] < res[j + 1][k])
+			{
+				if (res[i][k] < res[j][k])
 				{
-					std::swap(res[j], res[j + 1]);
+					std::swap(res[i], res[j]);
 					break;
 				}
+				if (res[i][k] > res[j][k])
+					break;
+			}
 
 	return res;
 }
